@@ -1,0 +1,41 @@
+name: Update WinGet Packages
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 16 * * *'
+
+jobs:
+  update:
+    name: Update package ${{ matrix.id }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: "StirlingTools.StirlingPDF"
+            repo: "Stirling-Tools/Stirling-PDF"
+            url: "https://github.com/Stirling-Tools/Stirling-PDF/releases/download/v{VERSION}/Stirling-PDF-windows-x86_64.msi"
+          
+    steps:
+    - name: Update Packages
+      uses: michidk/winget-updater@latest
+      with:
+        komac-version: "2.14.0"
+        komac-token: ${{ secrets.KOMAC_TOKEN }}
+        identifier: ${{ matrix.id }}
+        repo: ${{ matrix.repo }}
+        url: ${{ matrix.url }}
+
+  cleanup:
+    name: Cleanup branches
+    needs: update # Not necessarily needed as PRs don't get closed that quick but still nice to have it in order
+    runs-on: ubuntu-24.04
+
+    steps:
+    - name: Run Komac
+      uses: michidk/run-komac@latest
+      with:
+        komac-version: "2.14.0"
+        args: 'cleanup --only-merged --token=${{ secrets.KOMAC_TOKEN }}'
