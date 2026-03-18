@@ -17,6 +17,9 @@ jobs:
           - id: "StirlingTools.StirlingPDF"
             repo: "Stirling-Tools/Stirling-PDF"
             url: "https://github.com/Stirling-Tools/Stirling-PDF/releases/download/v{VERSION}/Stirling-PDF-windows-x86_64.msi"
+          - id: "yt-dlp.yt-dlp"
+            repo: "yt-dlp/yt-dlp"
+            url: '"https://github.com/yt-dlp/yt-dlp/releases/download/{VERSION}/yt-dlp_x86.exe https://github.com/yt-dlp/yt-dlp/releases/download/{VERSION}/yt-dlp.exe https://github.com/yt-dlp/yt-dlp/releases/download/{VERSION}/yt-dlp_arm64.exe"'
           
     steps:
     - name: Update Packages
